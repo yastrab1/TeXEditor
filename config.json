@@ -1,0 +1,111 @@
+{
+    "SupportedSeminars": [
+        "Riesky",
+        "Pikomat",
+        "Pikofyz",
+        "Terabio",
+        "KMS alfa",
+        "KMS beta"
+    ],
+    "RieskyExercises": [
+        "1.",
+        "2.",
+        "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7.",
+        "8.",
+        "9.",
+        "10."
+    ],
+    "PikomatExercises": [
+        "1.",
+        "2.",
+        "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7."
+    ],
+    "PikofyzExercises": [
+        "1.",
+        "2.",
+        "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7."
+    ],
+    "TerabioExercises": [
+        "1.",
+        "2.",
+        "3.",
+        "4.",
+        "5."
+    ],
+    "KMS alfaExercises": [
+        "1.",
+        "2.",
+        "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7."
+    ],
+    "KMS betaExercises": [
+        "4.",
+        "5.",
+        "6.",
+        "7.",
+        "8.",
+        "9.",
+        "10."
+    ],
+    "RieskyWebsite": "https://riesky.sk/",
+    "PikomatWebsite": "https://pikomat.sk/",
+    "PikofyzWebsite": "https://pikofyz.sk/",
+    "TerabioWebsite": "https://terabio.sk/",
+    "KMS alfaWebsite": "https://kms.sk/ulohy/",
+    "KMS betaWebsite": "https://kms.sk/ulohy/",
+    "RootDir": "FileSystem",
+    "RieskyExerciseTemplate": "defaultTemplate.tex",
+    "PikomatExerciseTemplate": "defaultTemplate.tex",
+    "PikofyzExerciseTemplate": "defaultTemplate.tex",
+    "TerabioExerciseTemplate": "defaultTemplate.tex",
+    "KMS alfaExerciseTemplate": "defaultTemplate.tex",
+    "KMS betaExerciseTemplate": "defaultTemplate.tex",
+    "FileTemplateProperties": [
+        "AUTHOR"
+    ],
+    "TitleTemplateProperties": [
+        "SEMINAR",
+        "EXERCISE",
+        "SERIES"
+    ],
+    "TemplateCompilersDefault": [
+        "FileTemplate",
+        "TitleTemplate"
+    ],
+    "AUTHOR": "Lukas Lipka",
+    "CurrentSeminars": [
+        "Riesky",
+        "Pikomat",
+        "Terabio"
+    ],
+    "CurrentRieskyExercises": [
+        "5.",
+        "6.",
+        "8."
+    ],
+    "CurrentPikomatExercises": [
+        "1.",
+        "2.",
+        "3."
+    ],
+    "CurrentTerabioExercises": [
+        "1.",
+        "3.",
+        "4."
+    ]
+}
