@@ -3,6 +3,8 @@ import urllib
 from bs4 import BeautifulSoup
 from mechanize import *
 
+from Config.Config import Config
+
 
 class RieskyPage:
     def __init__(self):
@@ -11,8 +13,8 @@ class RieskyPage:
     def logIn(self):
         self.browser.open("https://riesky.sk/ucet/prihlasenie")
         self.browser.select_form(method="POST")
-        self.browser["username"] = ""
-        self.browser["password"] = ""
+        self.browser["username"] = Config().get("RieskyUsername")
+        self.browser["password"] = Config().get("RieskyPassword")
         self.browser.submit()
         self.cookies = [i for i in self.browser.cookiejar]
 
@@ -30,7 +32,7 @@ class RieskyScraper:
         self.page.logIn()
 
     def getExercisesFromSeriesAndYear(self, seriesNum, year):
-        partOfYear = "zimna" if seriesNum <= 3 else "letna"
+        partOfYear = self.getCurrentPartOfYear(seriesNum)
         html = self.page.getPageHTML(f"https://riesky.sk/rocnik/{year}/{partOfYear}/kolo/{seriesNum % 3 + 1}/zadania/")
         soup = BeautifulSoup(html, features="html5lib")
         result = []
@@ -38,9 +40,14 @@ class RieskyScraper:
             result.append(exercise)
         return result
 
-    def getPointsFromCurrentSeries(self):
+    def getCurrentPartOfYear(self, seriesNum):
+        return "zimna" if seriesNum <= 3 else "letna"
+
+    def getPointsFromSeries(self, series, year):
+        partOfYear = self.getCurrentPartOfYear(series)
+
         html = self.page.getPageHTML("https://riesky.sk/moje_riesenia/")
         soup = BeautifulSoup(html, features="html5lib")
-        currentSeries = soup.find("div", class_="card-body")
-        for card in currentSeries.find_all("tr", class_="table-success"):
+        seriesCard = soup.find("div", {"id": f"collapse-{year}-{partOfYear}-{series % 3 + 1}"})
+        for card in seriesCard.find_all("tr", class_="table-success"):
             print(card.contents[7].text)

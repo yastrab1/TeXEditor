@@ -1,9 +1,8 @@
-from typing import Callable
+from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QDialog
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QInputDialog, QPushButton, QDialog
-from Config.Config import Config
+
 class ConfigAskDialog(QDialog):
-    def __init__(self,propertiesThatItAsks):
+    def __init__(self):
         super().__init__()
         self.layout = QVBoxLayout()
 
