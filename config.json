@@ -93,7 +93,32 @@
         "TitleTemplate"
     ],
     "RieskyUsername": "lukas",
-    "RieskyPassword": "gAAAAABllVbhwwBXToIw4mJYEnGYevyKKmB6F85dxX3S32SHtpWLqOjjNQZ2HdpT1YHz4CSasIq35OVISVejtQTxoVhtCwpjoA==",
+    "RieskyPassword": "gAAAAABllesabxJZIxdRErWakBHw4vgPWjEq2OYrWEWlBY46RR0Zs7jMBXHCN6apCntb0GfQ1kBlIJzTEtCFzDL8CFN-W7eonA==",
     "P-matUsername": "lipka.luki@gmail.com",
-    "P-matPassword": "gAAAAABllVbhruh0kkIkf9ItTC9kVGejt2vecOY0vPPi8H9xn2yaZ6kN41KjA2y22VgDtNjYb55cQ_uptoNvhbO5MBgU6Ze3vw=="
+    "P-matPassword": "gAAAAABllesasK4RL6EB_EJSkRwcIjMAjfpEzpK7vBLMIcDCYdlUxnlhdVf8wkcXhWzmBB136_iudQfa2hevE5XiftHubTXSOg==",
+    "CurrentSeminars": [
+        "Riesky",
+        "Pikomat",
+        "Pikofyz",
+        "Terabio"
+    ],
+    "CurrentRieskyExercises": [
+        "3.",
+        "5.",
+        "6."
+    ],
+    "CurrentPikomatExercises": [
+        "1.",
+        "2.",
+        "6."
+    ],
+    "CurrentPikofyzExercises": [
+        "1.",
+        "5."
+    ],
+    "CurrentTerabioExercises": [
+        "1.",
+        "2."
+    ],
+    "AUTHOR": "Lukas Lipka"
 }

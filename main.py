@@ -6,7 +6,6 @@ import qpageview
 from PyQt5.QtWidgets import *
 
 from Config.Config import Config
-from OnCloseObserver import OnCloseObserver
 from Runtime import Runtime
 from SideBar import SideBar
 from SyntaxHighlighter import Highlighter
@@ -101,6 +100,7 @@ if __name__ == "__main__":
     main_window = LaTeXEditor()
     Runtime().registerData("MainWindow", main_window)
     main_window.show()
+    Runtime().emitCallback("ApplicationStart")
     state = app.exec_()
-    OnCloseObserver().trigger()
+    Runtime().emitCallback("ApplicationEnd")
     sys.exit(state)

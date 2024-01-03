@@ -4,7 +4,7 @@ from typing import re
 
 from fernet import Fernet
 
-from OnCloseObserver import OnCloseObserver
+from Runtime import Runtime
 
 CONFIG_FILE = "config.json"
 class Config:
@@ -22,7 +22,7 @@ class Config:
         self.saveConfigHooks = []
         self.loadConfigHooks = []
 
-        OnCloseObserver().register(self.saveConfig)
+        Runtime().registerCallback("ApplicationEnd", self.saveConfig)
 
     def loadConfig(self):
         with open(CONFIG_FILE,"r",encoding="utf-8") as file:
@@ -117,7 +117,7 @@ class PasswordManager:
         Config().addLoadConfigHook(self.deserialize)
         Config().addSaveConfigHook(self.serialize)
 
-        OnCloseObserver().register(self.saveKey)
+        Runtime().registerCallback("ApplicationStart", self.saveKey)
 
     def saveKey(self):
         with open(self.secretPath, "w", encoding="utf-8") as f:

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QTabWidget, QScrollArea
 
-from CubedCalendar.CalendarModel import CubedCalendar
+from CubedCalendar.CalendarUI import CubedCalendar
 from FileStructure.FileStructure import FileStructure
 from SeminarOverview.SeminarOverviewTab import SeminarOverviewTab
 
