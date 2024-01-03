@@ -1,11 +1,8 @@
-import string
-
-from PyQt5.QtWidgets import QCompleter, QPlainTextEdit
-from PyQt5.QtGui import QTextCursor, QFont
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QTextCursor, QFont
+from PyQt5.QtWidgets import QCompleter, QPlainTextEdit
 
 from AutoCompleter import AutoCompleter
-from CubedCalendar.CalendarModel import CubedCalendar
 
 
 class CustomTextEdit(QPlainTextEdit):

@@ -1,12 +1,12 @@
+import functools
 import os
 import webbrowser
+
 from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QGroupBox, QCheckBox, QMessageBox
 
+from Config.Config import Config
 from CubedCalendar.CalendarModel import CalendarModel
 from Dialogs.ConfigAskDialog import ConfigAskDialog
-from Config.Config import Config
-import functools
-
 from Templates.TemplateCompiler import TemplateCompiler
 
 
@@ -83,7 +83,7 @@ class GenerateStructureButton(QPushButton):
 
 class SelectSeminars(ConfigAskDialog):
     def __init__(self):
-        super().__init__("CurrentSeminars")
+        super().__init__()
 
 
         self.options = QGroupBox("Select Seminars that you compete in:")
@@ -108,7 +108,7 @@ class SelectSeminars(ConfigAskDialog):
 
 class SelectSeminarExcercises(ConfigAskDialog):
     def __init__(self,seminarName):
-        super().__init__("")
+        super().__init__()
         self.seminarName = seminarName
 
         self.options = QGroupBox(f"Select {seminarName} exercises you will compete in:")

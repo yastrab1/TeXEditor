@@ -1,12 +1,11 @@
-from PyQt5.QtWidgets import QVBoxLayout, QWidget, QHBoxLayout, QLabel, QLineEdit
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QLineEdit
 
-from Config.Config import Config
 from Dialogs.ConfigAskDialog import ConfigAskDialog
 
 
 class TemplatePropertyDialog(ConfigAskDialog):
     def __init__(self,propertyName):
-        super().__init__(self)
+        super().__init__()
         self.propertyName = propertyName
         self.setWindowTitle("Property ask")
         self.introLabel = QLabel("While generating a template, there is a property that has not been set:")
