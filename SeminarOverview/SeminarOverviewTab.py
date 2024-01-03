@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QFrame, QVBoxLayout, QPushButton
 
-from SeminarPage.RieskyPage import RieskyScraper
+from SeminarPage.PmatPage import PmatPage
 
 
 class SeminarOverviewTab(QFrame):
@@ -12,5 +12,5 @@ class SeminarOverviewTab(QFrame):
 
         self.layout.addWidget(self.testButton)
 
-        self.testButton.clicked.connect(lambda: print(RieskyScraper().getPointsFromSeries(3, 26)))
+        self.testButton.clicked.connect(lambda: PmatPage().authenticate())
         self.setLayout(self.layout)

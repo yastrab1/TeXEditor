@@ -1,9 +1,9 @@
 import os
 import subprocess
 import sys
-import SeminarPage
-from PyQt5.QtWidgets import *
+
 import qpageview
+from PyQt5.QtWidgets import *
 
 from Config.Config import Config
 from OnCloseObserver import OnCloseObserver

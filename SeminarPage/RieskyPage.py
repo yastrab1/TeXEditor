@@ -4,13 +4,14 @@ from bs4 import BeautifulSoup
 from mechanize import *
 
 from Config.Config import Config
+from SeminarPage.AbstractSeminarPage import AbstractSeminarPage
 
 
-class RieskyPage:
+class RieskyPage(AbstractSeminarPage):
     def __init__(self):
         self.browser = Browser()
 
-    def logIn(self):
+    def authenticate(self):
         self.browser.open("https://riesky.sk/ucet/prihlasenie")
         self.browser.select_form(method="POST")
         self.browser["username"] = Config().get("RieskyUsername")
@@ -25,14 +26,18 @@ class RieskyPage:
         response = urllib.request.urlopen(request).read().decode('utf-8')
         return response
 
+    def submitFile(self, address, formId, filePath):
+        raise NotImplementedError("Work in progress")
+
+
 
 class RieskyScraper:
     def __init__(self):
         self.page = RieskyPage()
-        self.page.logIn()
+        self.page.authenticate()
 
     def getExercisesFromSeriesAndYear(self, seriesNum, year):
-        partOfYear = self.getCurrentPartOfYear(seriesNum)
+        partOfYear = self._getCurrentPartOfYear(seriesNum)
         html = self.page.getPageHTML(f"https://riesky.sk/rocnik/{year}/{partOfYear}/kolo/{seriesNum % 3 + 1}/zadania/")
         soup = BeautifulSoup(html, features="html5lib")
         result = []
@@ -40,11 +45,11 @@ class RieskyScraper:
             result.append(exercise)
         return result
 
-    def getCurrentPartOfYear(self, seriesNum):
+    def _getCurrentPartOfYear(self, seriesNum):
         return "zimna" if seriesNum <= 3 else "letna"
 
     def getPointsFromSeries(self, series, year):
-        partOfYear = self.getCurrentPartOfYear(series)
+        partOfYear = self._getCurrentPartOfYear(series)
 
         html = self.page.getPageHTML("https://riesky.sk/moje_riesenia/")
         soup = BeautifulSoup(html, features="html5lib")

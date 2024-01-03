@@ -16,16 +16,11 @@ class Config:
         return cls.instance
 
     def init(self):
-
         self.config = {}
         self.configAskingDialogs = {}
 
-        self.saveConfigCallbacks = []
-        self.loadConfigCallbacks = []
-
-        PasswordManager().init()  # TODO somracky sposob riesenia tohto problemu, toto je temporary
-
-        self.loadConfig()
+        self.saveConfigHooks = []
+        self.loadConfigHooks = []
 
         OnCloseObserver().register(self.saveConfig)
 
@@ -33,7 +28,7 @@ class Config:
         with open(CONFIG_FILE,"r",encoding="utf-8") as file:
             text = file.read()
             raw = json.loads(text)
-        self.config = self.applyCallbacksOnConfig(raw, self.loadConfigCallbacks)
+        self.config = self.applyCallbacksOnConfig(raw, self.loadConfigHooks)
 
     def applyCallbacksOnConfig(self, config, callbacks):
         if len(callbacks) == 0:
@@ -41,25 +36,37 @@ class Config:
 
         result = {}
         for key in config.keys():
-            if key.endswith("Password"):
-                pass
-            options = [callback(key, config[key]) for callback in callbacks]
-
-            if len(options) > 2:
-                raise Exception(f"Multiple callbacks deserialized key {key} differently")
-            if len(options) == 1:
-                result[key] = options[0]
-                continue
-            options.remove(config[key])
-            result[key] = options[0]
+            transformations = [callback(key, config[key]) for callback in callbacks]
+            transformationVariations = self.removeDuplicates(transformations)
+            if config[key] in transformationVariations:
+                transformationVariations.remove(config[key])
+                if len(transformationVariations) == 0:
+                    result[key] = config[key]
+                    continue
+            if len(transformationVariations) > 1:
+                raise Exception("Multiple callbacks transformed config differently")
+            result[key] = transformationVariations[0]
         return result
 
+    def removeDuplicates(self, lst):
+        seen = []
+        result = []
+
+        for item in lst:
+            if item not in seen:
+                seen.append(item)
+                result.append(item)
+
+        return result
     def saveConfig(self):
-        serialized = self.applyCallbacksOnConfig(self.config, self.saveConfigCallbacks)
+        serialized = self.applyCallbacksOnConfig(self.config, self.saveConfigHooks)
         with open(CONFIG_FILE,"w",encoding="utf-8") as file:
             file.write(json.dumps(serialized, indent=4))
 
     def get(self,key):
+        if self.config == {}:
+            self.loadConfig()
+
         if key in self.config:
             return self.config[key]
         if f"{key}Default" in self.config:
@@ -91,28 +98,29 @@ class Config:
         for config in configThatItAsks:
             self.configAskingDialogs[config] = dialog,args
 
-    def addSaveConfigCallback(self, callback):
-        self.saveConfigCallbacks.append(callback)
+    def addSaveConfigHook(self, callback):
+        self.saveConfigHooks.append(callback)
 
-    def addLoadConfigCallback(self, callback):
-        self.loadConfigCallbacks.append(callback)
+    def addLoadConfigHook(self, callback):
+        self.loadConfigHooks.append(callback)
 
 
 class PasswordManager:
     def init(self):
-        with open("secret.txt", "r", encoding="utf-8") as f:
+        self.secretPath = "secret.txt"
+        with open(self.secretPath, "r", encoding="utf-8") as f:
             self.key = bytes(f.read(), "utf-8")
         if self.key == b"":
             self.key = Fernet.generate_key()
         self.fernet = Fernet(self.key)
 
-        Config().addLoadConfigCallback(self.deserialize)
-        Config().addSaveConfigCallback(self.serialize)
+        Config().addLoadConfigHook(self.deserialize)
+        Config().addSaveConfigHook(self.serialize)
 
         OnCloseObserver().register(self.saveKey)
 
     def saveKey(self):
-        with open("secret.txt", "w", encoding="utf-8") as f:
+        with open(self.secretPath, "w", encoding="utf-8") as f:
             f.write(self.key.decode("utf-8"))
 
     def __new__(cls, *args, **kwargs):
