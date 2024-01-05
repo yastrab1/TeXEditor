@@ -1,8 +1,8 @@
 import re
 
-from PyQt5.QtCore import QStringListModel, QModelIndex
-from PyQt5.QtWidgets import QCompleter
 from PyQt5 import QtCore
+from PyQt5.QtCore import QStringListModel
+from PyQt5.QtWidgets import QCompleter
 
 keywordPath = "keywords.txt"
 class AutoCompleter(QCompleter):

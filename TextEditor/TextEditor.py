@@ -2,8 +2,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QCompleter, QPlainTextEdit
 
-from AutoCompleter import AutoCompleter
 from Defaults import FontDefaults
+from TextEditor.AutoCompleter import AutoCompleter
 
 
 class CustomTextEdit(QPlainTextEdit):

@@ -7,9 +7,9 @@ from PyQt5.QtWidgets import *
 
 from Config.Config import Config
 from Runtime import Runtime
-from SideBar import SideBar
-from SyntaxHighlighter import Highlighter
-from TextEditor import CustomTextEdit
+from TextEditor.SideBar import SideBar
+from TextEditor.SyntaxHiglight.SyntaxHighlighter import Highlighter
+from TextEditor.TextEditor import CustomTextEdit
 
 
 class LaTeXEditor(QWidget):
@@ -24,7 +24,7 @@ class LaTeXEditor(QWidget):
 
         open_file_action = QAction('Open', self)
         open_file_action.setShortcut('Ctrl+O')
-        open_file_action.triggered.connect(self.openFile)
+        open_file_action.triggered.connect(self.openFileDialog)
 
         save_file_action = QAction('Save', self)
         save_file_action.setShortcut('Ctrl+S')

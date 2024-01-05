@@ -9,4 +9,7 @@ titleFont.setCapitalization(QFont.AllUppercase)
 
 classicFont = QFont(family)
 classicFont.setPixelSize(12)
-classicFont.setBold(False)
+
+importantFont = QFont(family)
+importantFont.setPixelSize(12)
+importantFont.setBold(True)

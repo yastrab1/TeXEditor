@@ -93,9 +93,9 @@
         "TitleTemplate"
     ],
     "RieskyUsername": "lukas",
-    "RieskyPassword": "gAAAAABlmFkBnQ5ZgCLQ8271tY4MnvdxYU6bhIoO1fsXu4s3sZPk20RfrwIsL_9VCxxF4ybkxekvucqXehnT27MURH_NdQpWjg==",
+    "RieskyPassword": "gAAAAABlmGoLn_gEQvo6MwGbsebd6AJH114v1LaF_BmgNDplCdV-vYS5QF9XuBF2eS2wTMvYHSEU2q6THiG4zADYvJ_IkiY1oA==",
     "P-matUsername": "lipka.luki@gmail.com",
-    "P-matPassword": "gAAAAABlmFkBgXMyW7FEEDDclHq2z3HZj9t8MZRt1h3ZIbA0bY2TwGvwe2OIQepyScODG_qBfJov1bTcahitwXD5TWAbAHXDBQ==",
+    "P-matPassword": "gAAAAABlmGoLFHTPHPS9DFp4fqW39vZwaYIpNgJYzpCR1DDaKLFwCIV5C1Z8NM0ltRcdfaGKV-kahWxY_bzzZ5h4ax-NrY9L_A==",
     "CurrentSeminars": [
         "Riesky",
         "Pikomat",
@@ -120,5 +120,6 @@
         "1.",
         "2."
     ],
-    "AUTHOR": "Lukas Lipka"
+    "AUTHOR": "Lukas Lipka",
+    "ColorMapPath": "TextEditor/SyntaxHiglight/colorMap.json"
 }
