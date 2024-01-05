@@ -27,14 +27,41 @@ class AutoCompleter(QCompleter):
             file.write("\n".join(self.keywords))
 
     def onTextUpdated(self,text):
-        regex = r"\\.*?[{\s\n(]"
-        matches = re.findall(regex, text,re.DOTALL)
-        for match in matches:
-            if match not in self.keywords:
-                self.keywords.append(match.lstrip("\\"))
-        self.keywords = list(set(self.keywords))
+        commands = self.findLatexCommandsAndSignatures(text)
+        self.keywords = list(set(commands))
         self.model().setStringList([*self.keywords])
         self.saveKeywords()
+
+    def findLatexCommandsAndSignatures(self, content):
+        def wrapSignatureInOriginalParenthesis(signature, original):
+            if not original:
+                return
+            return original[0] + signature + original[-1]
+
+        # Regular expression to match LaTeX commands with their arguments
+        regex_pattern = r'\\([a-zA-Z]+)(\*?)(\[[^\]]*\])?(\{[^\}]*\})?'
+
+        matches = re.finditer(regex_pattern, content)
+
+        latex_commands = []
+        for match in matches:
+            command_name = match.group(1)
+            star_modifier = wrapSignatureInOriginalParenthesis("", match.group(2))
+            optional_argument = wrapSignatureInOriginalParenthesis("", match.group(3))
+            mandatory_argument = wrapSignatureInOriginalParenthesis("", match.group(4))
+
+            # Construct the signature of the LaTeX command
+            signature = f"{command_name}"
+            if star_modifier:
+                signature += "*"
+            if optional_argument:
+                signature += optional_argument
+            if mandatory_argument:
+                signature += mandatory_argument
+
+            latex_commands.append(signature)
+
+        return latex_commands
 
     def setHighlighted(self, text):
         self.lastSelected = text
