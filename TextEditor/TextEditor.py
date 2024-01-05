@@ -1,8 +1,9 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QTextCursor, QFont
+from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QCompleter, QPlainTextEdit
 
-from AutoCompleter import AutoCompleter
+from Defaults import FontDefaults
+from TextEditor.AutoCompleter import AutoCompleter
 
 
 class CustomTextEdit(QPlainTextEdit):
@@ -13,9 +14,8 @@ class CustomTextEdit(QPlainTextEdit):
         self.completer = AutoCompleter()
         self.completer.setWidget(self)
         self.completer.insertText.connect(self.insertCompletion)
-        font = QFont()
-        font.setPixelSize(14)
-        self.setFont(font)
+
+        self.setFont(FontDefaults.classicFont)
 
     def insertCompletion(self, completion):
         tc = self.textCursor()

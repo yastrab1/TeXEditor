@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QCheckBox, QHBoxLayout
 
 from CubedCalendar.CalendarModel import CalendarModel
 from CubedCalendar.EventLabel import EventLabel
+from Defaults import FontDefaults
 
 
 class CalendarEventDialog(QDialog):
@@ -28,6 +29,7 @@ class CalendarEventDialog(QDialog):
 
         self.titleLabel = QLabel(self.calendarEvent.summary)
         self.titleLabel.setAlignment(Qt.AlignHCenter)
+        self.titleLabel.setFont(FontDefaults.titleFont)
         self.info = QLabel(f"Od:{self.calendarEvent.start}\n"
                            f"Do:{self.calendarEvent.end}")
 

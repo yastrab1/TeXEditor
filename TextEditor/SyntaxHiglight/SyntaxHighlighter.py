@@ -1,6 +1,9 @@
 import re
 
-from PyQt5.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor
+from PyQt5.QtGui import QSyntaxHighlighter, QTextCharFormat
+
+from TextEditor.SyntaxHiglight.ColorMapInterpreter import ColorMapInterpreter
+
 
 class SyntaxPattern:
     def __init__(self,regex:str,color):
@@ -21,10 +24,10 @@ class Highlighter(QSyntaxHighlighter):
         self.highlight_format = QTextCharFormat()
 
         self.patterns = []
-        self.loadSyntaxPatternsFromCSV("SyntaxPatterns.txt")
+        self.loadSyntaxPatternsFromCSV("TextEditor\\SyntaxPatterns.txt")
 
     def highlightBlock(self, text):
         for pattern in self.patterns:
             for match in pattern.regex.finditer(text):
-                self.highlight_format.setForeground(QColor(pattern.color))
+                self.highlight_format = ColorMapInterpreter().interpret(pattern.color)
                 self.setFormat(match.start(), match.end() - match.start(), self.highlight_format)

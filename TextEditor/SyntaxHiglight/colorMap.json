@@ -1,0 +1,14 @@
+{
+  "parameter": {
+    "foreground": "darkblue",
+    "weight": 800
+  },
+  "command": {
+    "foreground": "#0d7eff",
+    "weight": 400
+  },
+  "inlinemath": {
+    "foreground": "lime",
+    "weight": 100
+  }
+}
