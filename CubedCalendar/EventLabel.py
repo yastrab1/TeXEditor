@@ -4,6 +4,8 @@ from datetime import datetime, date, timedelta
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QLabel
 
+from Defaults import FontDefaults
+
 
 class EventLabel(QLabel):
     clicked = pyqtSignal(QLabel)
@@ -12,7 +14,7 @@ class EventLabel(QLabel):
         super().__init__(*args, **kwargs)
         self.calendarEvent = event
         self.setText(f"{event.summary} | {event.start} - {event.end}")
-
+        self.setFont(FontDefaults.classicFont)
         if date.today() <= event.start <= date.today() + timedelta(days=7):
             self.setStyleSheet("QLabel { color : red; }")
         if event.start < date.today():
