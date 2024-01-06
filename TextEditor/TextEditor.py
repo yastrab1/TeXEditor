@@ -1,7 +1,9 @@
+import pyautogui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QTextCursor
-from PyQt5.QtWidgets import QCompleter, QPlainTextEdit
+from PyQt5.QtWidgets import QPlainTextEdit
 
+import Runtime
 from Defaults import FontDefaults
 from TextEditor.AutoCompleter import AutoCompleter
 
@@ -13,18 +15,9 @@ class CustomTextEdit(QPlainTextEdit):
 
         self.completer = AutoCompleter()
         self.completer.setWidget(self)
-        self.completer.insertText.connect(self.insertCompletion)
 
         self.setFont(FontDefaults.classicFont)
 
-    def insertCompletion(self, completion):
-        tc = self.textCursor()
-        extra = (len(completion) - len(self.completer.completionPrefix()))
-        tc.movePosition(QTextCursor.Left)
-        tc.movePosition(QTextCursor.EndOfWord)
-        tc.insertText(completion[-extra:])
-        self.setTextCursor(tc)
-        self.completer.popup().hide()
     def focusInEvent(self, event):
         if self.completer:
             self.completer.setWidget(self)
@@ -32,14 +25,26 @@ class CustomTextEdit(QPlainTextEdit):
 
     def keyPressEvent(self, event):
 
+        Runtime.Runtime().registerData("EditorText", self.toPlainText())
         tc = self.textCursor()
         tc.select(QTextCursor.WordUnderCursor)
-        if event.key() == (Qt.Key_Return or Qt.Key_Tab) and self.completer.popup().isVisible():
-            current = len(tc.selectedText())
+        key = event.key()
+        if (key == Qt.Key_Return or key == Qt.Key_Tab) and self.completer.popup().isVisible():
 
-            self.insertText(self.completer.getSelected()[current:])
-            self.completer.setCompletionMode(QCompleter.PopupCompletion)
+            current = len(tc.selectedText())
+            toInsert = self.completer.getSelected()[current:]
+            total = tc.selectedText() + toInsert
+            print(total)
+            tc.beginEditBlock()
+            self.insertText(toInsert)
+            if "{" in toInsert:
+                index = toInsert.index("{")
+                for i in range(len(toInsert) - index - 1):
+                    pyautogui.keyDown("left")
+            if "begin" in total:
+                self.insertText("\n\\end{}")
             self.completer.popup().hide()
+            tc.endEditBlock()
             return
         if event.text().endswith("\t"):
             self.insertText("    ")
@@ -48,7 +53,6 @@ class CustomTextEdit(QPlainTextEdit):
         cr = self.cursorRect()
 
         if len(tc.selectedText()) > 0:
-            print(tc.selectedText())
             self.completer.setCompletionPrefix(tc.selectedText())
             popup = self.completer.popup()
             popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
@@ -61,6 +65,8 @@ class CustomTextEdit(QPlainTextEdit):
             self.completer.popup().hide()
         if event.text().endswith("{"):
             self.insertText("}")
+
+        tc.select(QTextCursor.WordUnderCursor)
 
 
     def setText(self, text:str):

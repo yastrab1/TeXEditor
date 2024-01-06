@@ -1,0 +1,14 @@
+{
+  "parameter": {
+    "regex": "\\{.*?\\}",
+    "environment": "document"
+  },
+  "command": {
+    "regex": "\\\\[a-zA-Z]+",
+    "environment": ""
+  },
+  "inlinemath": {
+    "regex": "\\$.*\\$",
+    "environment": "inlinemath"
+  }
+}
