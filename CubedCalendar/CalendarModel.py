@@ -7,6 +7,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QMessageBox
 from icalendar import Calendar
 
+from Config.Config import Config
 from CubedCalendar.EventLabel import Event
 from Runtime import Runtime
 
@@ -25,6 +26,7 @@ class CalendarModel:
     def init(self):
         self.events = []
         self.interestedEvents = {}
+
         Runtime().registerCallback("ApplicationEnd", self.saveInterestedEvents)
 
     def saveInterestedEvents(self):
@@ -49,6 +51,10 @@ class CalendarModel:
             event = self.getEventFromUID(uid)
             event.interested = True
             event.notifyBeforeHours = eventdata["hours"]
+        for seminar in Config().get("CurrentSeminars"):
+            for event in self.events:
+                if seminar in event.summary:
+                    event.interested = True
 
     def importFromInternet(self):
         data = ""

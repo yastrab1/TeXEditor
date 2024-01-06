@@ -13,3 +13,7 @@ classicFont.setPixelSize(12)
 importantFont = QFont(family)
 importantFont.setPixelSize(12)
 importantFont.setBold(True)
+
+lessImportantFont = QFont(family)
+lessImportantFont.setPixelSize(12)
+lessImportantFont.setItalic(True)

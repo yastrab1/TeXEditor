@@ -4,8 +4,7 @@
         "Pikomat",
         "Pikofyz",
         "Terabio",
-        "KMS alfa",
-        "KMS beta"
+        "KMS"
     ],
     "SupportedDomains": [
         "P-mat",
@@ -49,16 +48,10 @@
         "4.",
         "5."
     ],
-    "KMS alfaExercises": [
+    "KMSExercises": [
         "1.",
         "2.",
         "3.",
-        "4.",
-        "5.",
-        "6.",
-        "7."
-    ],
-    "KMS betaExercises": [
         "4.",
         "5.",
         "6.",
@@ -71,15 +64,13 @@
     "PikomatWebsite": "https://pikomat.sk/",
     "PikofyzWebsite": "https://pikofyz.sk/",
     "TerabioWebsite": "https://terabio.sk/",
-    "KMS alfaWebsite": "https://kms.sk/ulohy/",
-    "KMS betaWebsite": "https://kms.sk/ulohy/",
+    "KMSWebsite": "https://kms.sk/ulohy/",
     "RootDir": "FileSystem",
     "RieskyExerciseTemplate": "defaultTemplate.tex",
     "PikomatExerciseTemplate": "defaultTemplate.tex",
     "PikofyzExerciseTemplate": "defaultTemplate.tex",
     "TerabioExerciseTemplate": "defaultTemplate.tex",
-    "KMS alfaExerciseTemplate": "defaultTemplate.tex",
-    "KMS betaExerciseTemplate": "defaultTemplate.tex",
+    "KMSExerciseTemplate": "defaultTemplate.tex",
     "FileTemplateProperties": [
         "AUTHOR"
     ],
@@ -93,9 +84,9 @@
         "TitleTemplate"
     ],
     "RieskyUsername": "lukas",
-    "RieskyPassword": "gAAAAABlmHQNBedsZexUbJ_9DmE_eSNmv7GnAsMzFbeEvh52RCnhxJQcPnBWtSVaJt3tgw9Jy_4TZtj_nrXaNV1GYCSMV7G8uQ==",
+    "RieskyPassword": "gAAAAABlmRzk5-d2JgRyiDsg2EyjjXvn66i8iNaAFxcPgJtBQ4_2K5nTsGPdGj-l-lJxAMBz9CYrqhIPEQg13v86NyCRlhidcg==",
     "P-matUsername": "lipka.luki@gmail.com",
-    "P-matPassword": "gAAAAABlmHQN9EpnbLLTtUiT388YYEr94pZF98KowT_R3TxmOa_OLtJvJ0cCwiUhAs3RvIrgn-7rdsHuOQNTCRnARi0eX7jUJQ==",
+    "P-matPassword": "gAAAAABlmRzkuMWOe9BqasQsmK29Ba5xQNbDWySNHPkmsj7wnTHAQ9KvXSxkJiB2bNGJJL_2cHsHw3evH7TSVYQMTwJokkW6pQ==",
     "CurrentSeminars": [
         "Riesky",
         "Pikomat",
