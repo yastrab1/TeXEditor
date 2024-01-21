@@ -1,11 +1,10 @@
 import json
 import re
 
-from PyQt5.QtGui import QSyntaxHighlighter, QTextCharFormat
-
-import Runtime
-from TextEditor.SyntaxHiglight.ColorMapInterpreter import ColorMapInterpreter
-from TextEditor.TeXAnalyzer import TexAnalyzer
+from PyQt5.QtWidgets import QTextEdit
+from pygments import highlight
+from pygments.formatters import HtmlFormatter
+from pygments.lexers.markup import TexLexer
 
 
 class SyntaxPattern:
@@ -20,28 +19,34 @@ class SyntaxPattern:
         environment = json[name]["environment"]
         regex = json[name]["regex"]
         return SyntaxPattern(regex, color, environment)
-class Highlighter(QSyntaxHighlighter):
-    def loadSyntaxPatternsFromCSV(self,path):
-        with open(path,'r',encoding="utf-8") as config:
+
+
+class Highlighter:
+    def __init__(self, parent: QTextEdit = None):
+        self.parent = parent
+        self.patterns = []
+        self.loadSyntaxPatternsFromCSV("TextEditor\\SyntaxPatterns.json")
+        self.lexer = TexLexer()
+        self.formatter = HtmlFormatter(noclasses=True)
+        self.parent.textChanged.connect(self.highlight)
+        with open(r"C:\Users\Luki\PycharmProjects\TeXEditor\TextEditor\SyntaxHiglight\styles.css") as f:
+            self.stylesheet = f.read()
+        self.formatter.cssstyles = self.stylesheet
+
+    def loadSyntaxPatternsFromCSV(self, path):
+        with open(path, 'r', encoding="utf-8") as config:
             text = json.loads(config.read())
             for key, value in text.items():
                 self.patterns.append(SyntaxPattern.fromJson(text, key))
 
-    def __init__(self, parent=None):
-        super(Highlighter, self).__init__(parent)
-        self.highlight_format = QTextCharFormat()
-
-        self.patterns = []
-        self.loadSyntaxPatternsFromCSV("TextEditor\\SyntaxPatterns.json")
-
-    def highlightBlock(self, text):
-        analyzer = TexAnalyzer()
-        analyzer.analyze(Runtime.Runtime().getData("EditorText"))
-
-        for pattern in self.patterns:
-            for match in pattern.regex.finditer(text):
-                print(analyzer.getCurrentEnvironment(match.start())[-1].type)
-                if not pattern.environment in analyzer.getCurrentEnvironment(match.start())[-1].type:
-                    continue
-                self.highlight_format = ColorMapInterpreter().interpret(pattern.colorKey, text)
-                self.setFormat(match.start(), match.end() - match.start(), self.highlight_format)
+    def highlight(self):
+        oldCursorPos = self.parent.textCursor().position()
+        formatted = highlight(self.parent.toPlainText(), self.lexer, self.formatter)
+        print(formatted)
+        self.parent.blockSignals(True)
+        self.parent.setText(formatted)
+        self.parent.setStyleSheet(self.stylesheet)
+        tc = self.parent.textCursor()
+        tc.setPosition(oldCursorPos)
+        self.parent.setTextCursor(tc)
+        self.parent.blockSignals(False)

@@ -1,15 +1,16 @@
 import pyautogui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QTextCursor
-from PyQt5.QtWidgets import QPlainTextEdit
+from PyQt5.QtWidgets import QTextEdit
 
 import Runtime
 from Defaults import FontDefaults
 from TextEditor.AutoCompleter import AutoCompleter
 
 
-class CustomTextEdit(QPlainTextEdit):
-    keys = [Qt.Key_A,Qt.Key_B,Qt.Key_C,Qt.Key_D,Qt.Key_E,Qt.Key_F]
+class CustomTextEdit(QTextEdit):
+    keys = [Qt.Key_A, Qt.Key_B, Qt.Key_C, Qt.Key_D, Qt.Key_E, Qt.Key_F]
+
     def __init__(self, *args, **kwargs):
         super(CustomTextEdit, self).__init__(*args, **kwargs)
 
@@ -21,7 +22,7 @@ class CustomTextEdit(QPlainTextEdit):
     def focusInEvent(self, event):
         if self.completer:
             self.completer.setWidget(self)
-        QPlainTextEdit.focusInEvent(self, event)
+        super().focusInEvent(event)
 
     def keyPressEvent(self, event):
 
@@ -68,15 +69,14 @@ class CustomTextEdit(QPlainTextEdit):
 
         tc.select(QTextCursor.WordUnderCursor)
 
-
-    def setText(self, text:str):
-        self.setPlainText(text.replace("\t","    "))
+    def setEditorText(self, text: str):
+        self.setText(text.replace("\t", "    "))
         self.completer.onTextUpdated(self.toPlainText())
-    def insertText(self,text:str):
+
+    def insertText(self, text: str):
         final = text
 
         self.insertPlainText(final)
-    def processEvent(self,event):
 
+    def processEvent(self, event):
         super().keyPressEvent(event)
-

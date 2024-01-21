@@ -9,7 +9,7 @@ from icalendar import Calendar
 
 from Config.Config import Config
 from CubedCalendar.EventLabel import Event
-from Runtime import Runtime
+from Runtime import Runtime, Hooks
 
 calendarPath = "CubedCalendar/any.ics"
 interestedEventsPath = "CubedCalendar/interestedEvents.json"
@@ -27,7 +27,7 @@ class CalendarModel:
         self.events = []
         self.interestedEvents = {}
 
-        Runtime().registerCallback("ApplicationEnd", self.saveInterestedEvents)
+        Runtime().registerHook(Hooks.APPSTOP, self.saveInterestedEvents)
 
     def saveInterestedEvents(self):
         data = {}
