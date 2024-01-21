@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 from Config.Config import Config
 from Runtime import Runtime, Hooks
 from TextEditor.SideBar import SideBar
-from TextEditor.SyntaxHiglight.SyntaxHighlighter import Highlighter
+from TextEditor.SyntaxHighlight.SyntaxHighlighter import Highlighter
 from TextEditor.TextEditor import CustomTextEdit
 
 
