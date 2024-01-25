@@ -9,8 +9,6 @@ from TextEditor.AutoCompleter import AutoCompleter
 
 
 class CustomTextEdit(QTextEdit):
-    keys = [Qt.Key_A, Qt.Key_B, Qt.Key_C, Qt.Key_D, Qt.Key_E, Qt.Key_F]
-
     def __init__(self, *args, **kwargs):
         super(CustomTextEdit, self).__init__(*args, **kwargs)
 

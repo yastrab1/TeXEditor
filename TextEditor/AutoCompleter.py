@@ -27,7 +27,7 @@ class AutoCompleter(QCompleter):
             row += 1
 
         self.setModel(self.model)
-        self.setCompletionMode(QCompleter.PopupCompletion)
+        self.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
         self.highlighted.connect(self.setHighlighted)
 
     def loadKeywords(self):

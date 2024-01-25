@@ -1,0 +1,12 @@
+fernet~=1.0.1
+PyQt5~=5.15.10
+qpageview~=0.6.2
+PyAutoGUI~=0.9.54
+Pygments~=2.17.2
+selenium~=4.16.0
+beautifulsoup4~=4.12.2
+mechanize~=0.4.9
+numpy~=1.26.3
+requests~=2.31.0
+icalendar~=5.0.11
+pyqtwebengine==5.15.6

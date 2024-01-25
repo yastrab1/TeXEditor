@@ -86,13 +86,14 @@ class LaTeXEditor(QWidget):
     def generatePdf(self):
         print(self.path)
         result = subprocess.run(['pdflatex', self.path], cwd=os.path.dirname(self.path))
+        renderedPath = ""
         if result.returncode == 0:  # pdflatex ran successfully
-            path = self.path.replace(".tex", ".pdf")
-            os.startfile(path)
+            renderedPath = self.path.replace(".tex", ".pdf")
         else:
             # handle error here, e.g., print an error message or throw an exception
             print('Error in running pdflatex')
-
+        print(renderedPath)
+        self.sidebar.openPdf(renderedPath)
 
 if __name__ == "__main__":
 
