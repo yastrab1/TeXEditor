@@ -110,7 +110,8 @@ class PasswordManager:
         self.secretPath = "secret.txt"
         with open(self.secretPath, "r", encoding="utf-8") as f:
             self.key = bytes(f.read(), "utf-8")
-        if self.key == b"":
+        print(self.key)
+        if self.key.decode("utf-8") == "":
             self.key = Fernet.generate_key()
         self.fernet = Fernet(self.key)
 
@@ -136,6 +137,7 @@ class PasswordManager:
         return self.fernet.encrypt(value).decode("utf-8")
 
     def deserialize(self, key, value):
+        return value
         if not isinstance(value, str):
             return value
         if not key.endswith("Password"):

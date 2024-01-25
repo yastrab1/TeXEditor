@@ -1,7 +1,7 @@
-documentclass[]{}
-maketitle
-title{}
-begin{}
-author{}
 end{}
 section{}
+documentclass[]{}
+title{}
+maketitle
+begin{}
+author{}

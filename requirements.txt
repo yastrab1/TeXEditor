@@ -1,0 +1,7 @@
+pip~=23.2.1
+pyqt5==5.15.10
+fernet==1.0.1
+requests==2.31.0
+numpy==1.26.3
+selenium==4.17.2
+mechanize==0.4.9

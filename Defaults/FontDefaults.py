@@ -3,13 +3,13 @@ from PyQt5.QtGui import QFont
 family = "Roboto"
 
 titleFont = QFont(family)
-titleFont.setPixelSize(30)
+titleFont.setPointSize(25)
 titleFont.setBold(True)
 titleFont.setCapitalization(QFont.AllUppercase)
 
 classicFont = QFont(family)
-classicFont.setPixelSize(12)
+classicFont.setPointSize(8)
 
 importantFont = QFont(family)
-importantFont.setPixelSize(12)
+importantFont.setPointSize(8)
 importantFont.setBold(True)

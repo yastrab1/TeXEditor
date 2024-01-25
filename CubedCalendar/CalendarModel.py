@@ -57,8 +57,11 @@ class CalendarModel:
         except requests.ConnectionError as e:
             self.makeErrorBox()
         if not data:
-            with open(interestedEventsPath, 'r', encoding="utf-8") as file:
+            with open('CubedCalendar/any.ics', 'r', encoding="utf-8") as file:
                 data = file.read()
+                print(f"data{data}")
+                if data == "{}":
+                    data = ""
         return data
 
     def _importFromInternetUnhandled(self):
@@ -71,6 +74,7 @@ class CalendarModel:
     def cacheData(self, data):
         with open(calendarPath, 'w', encoding="utf-8") as file:
             file.write(data)
+
     def load(self):
         data = self.importFromInternet()
         self.events = []
@@ -86,6 +90,7 @@ class CalendarModel:
                 description = component.get("DESCRIPTION")
                 uid = component.get("UID")
                 self.events.append(Event(start, end, summary, description, uid))
+
         self.events.sort(key=lambda x: x.getStandardStart())
         self.loadInterestedEvents()
         self.spawnNotificationTimers()
@@ -122,7 +127,7 @@ class CalendarModel:
             "Failed loading Calendar from internet. Check your internet connection\nUsing last cached version of this calendar")
         box.exec_()
 
-    def getCurrentSeries(self,seminarName):
+    def getCurrentSeries(self, seminarName):
         return 1
         # for event in self.events:
         #     if datetime.today().date() > event.end:
