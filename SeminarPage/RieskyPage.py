@@ -1,3 +1,4 @@
+import os.path
 import urllib
 
 from bs4 import BeautifulSoup
@@ -7,6 +8,9 @@ from Config.Config import Config
 from SeminarPage.AbstractSeminarPage import AbstractSeminarPage
 
 
+def _getCurrentPartOfYear(seriesNum):
+    return "zimna" if seriesNum < 3 else "letna"
+
 class RieskyPage(AbstractSeminarPage):
     def __init__(self):
         self.browser = Browser()
@@ -14,6 +18,7 @@ class RieskyPage(AbstractSeminarPage):
     def authenticate(self):
         self.browser.open("https://riesky.sk/ucet/prihlasenie")
         self.browser.select_form(method="POST")
+        print(Config().get("RieskyPassword"))
         self.browser["username"] = Config().get("RieskyUsername")
         self.browser["password"] = Config().get("RieskyPassword")
         self.browser.submit()
@@ -26,9 +31,12 @@ class RieskyPage(AbstractSeminarPage):
         response = urllib.request.urlopen(request).read().decode('utf-8')
         return response
 
-    def submitFile(self, address, formId, filePath):
-        raise NotImplementedError("Work in progress")
-
+    def submitFile(self, path, year, series, number):
+        self.browser.open(
+            f"https://riesky.sk/rocnik/{year}/{_getCurrentPartOfYear(series)}/kolo/{series % 3 + 1}/priklad/{number}/odovzdavanie/")
+        self.browser.select_form(nr=2)
+        self.browser.form.add_file(open(path, 'rb'), 'application/pdf', os.path.basename(path))
+        self.browser.submit()
 
 
 class RieskyScraper:
@@ -44,9 +52,6 @@ class RieskyScraper:
         for exercise in soup.find_all("div", class_="zadanie"):
             result.append(exercise)
         return result
-
-    def _getCurrentPartOfYear(self, seriesNum):
-        return "zimna" if seriesNum <= 3 else "letna"
 
     def getPointsFromSeries(self, series, year):
         partOfYear = self._getCurrentPartOfYear(series)

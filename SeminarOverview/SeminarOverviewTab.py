@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QFrame, QVBoxLayout, QPushButton
 
-from SeminarPage.PmatPage import PmatPage
+from SeminarPage.RieskyPage import RieskyPage
 
 
 class SeminarOverviewTab(QFrame):
@@ -12,5 +12,11 @@ class SeminarOverviewTab(QFrame):
 
         self.layout.addWidget(self.testButton)
 
-        self.testButton.clicked.connect(lambda: PmatPage().authenticate())
+        self.testButton.clicked.connect(self.submitFile)
         self.setLayout(self.layout)
+
+    def submitFile(self):
+        page = RieskyPage()
+        page.authenticate()
+        page.submitFile(r"C:\Users\Luki\PycharmProjects\TeXEditor\FileSystem\Pikofyz\1._séria\1._úloha.pdf",
+                        26, 3, 6)

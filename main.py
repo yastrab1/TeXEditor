@@ -6,9 +6,9 @@ import sys
 from PyQt5.QtWidgets import *
 
 from Config.Config import Config
-from Runtime import Runtime
+from Runtime import Runtime, Hooks
 from TextEditor.SideBar import SideBar
-from TextEditor.SyntaxHiglight.SyntaxHighlighter import Highlighter
+from TextEditor.SyntaxHighlight.SyntaxHighlighter import Highlighter
 from TextEditor.TextEditor import CustomTextEdit
 
 
@@ -19,7 +19,7 @@ class LaTeXEditor(QWidget):
         self.layout = QHBoxLayout()
 
         self.text_edit = CustomTextEdit()
-        self.highlighter = Highlighter(self.text_edit.document())
+        self.highlighter = Highlighter(self.text_edit)
 
 
         open_file_action = QAction('Open', self)
@@ -59,7 +59,7 @@ class LaTeXEditor(QWidget):
         self.path = path
         try:
             with open(path, 'r', encoding="utf-8") as file:
-                self.text_edit.setText(file.read())
+                self.text_edit.setEditorText(file.read())
                 rootAbs = os.path.abspath(Config().get("RootDir"))
                 self.setWindowTitle(os.path.relpath(rootAbs,path))
         except Exception as e:
@@ -84,13 +84,14 @@ class LaTeXEditor(QWidget):
     def generatePdf(self):
         print(self.path)
         result = subprocess.run(['pdflatex', self.path], cwd=os.path.dirname(self.path))
+        renderedPath = ""
         if result.returncode == 0:  # pdflatex ran successfully
-            path = self.path.replace(".tex", ".pdf")
-            os.startfile(path)
+            renderedPath = self.path.replace(".tex", ".pdf")
         else:
             # handle error here, e.g., print an error message or throw an exception
             print('Error in running pdflatex')
-
+        print(renderedPath)
+        self.sidebar.openPdf(renderedPath)
 
 if __name__ == "__main__":
 
@@ -98,7 +99,8 @@ if __name__ == "__main__":
     main_window = LaTeXEditor()
     Runtime().registerData("MainWindow", main_window)
     main_window.show()
-    Runtime().emitCallback("ApplicationStart")
+    Runtime().emitHook(Hooks.APPSTART)
     state = app.exec_()
-    Runtime().emitCallback("ApplicationEnd")
+    Runtime().emitHook(Hooks.APPSTOP)
     sys.exit(state)
+

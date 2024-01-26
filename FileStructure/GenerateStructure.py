@@ -40,14 +40,14 @@ class GenerateStructureButton(QPushButton):
                 dialog.exec()
                 continue
 
-            seriesPath = os.path.join(path , f"{currentSeries}._séria")
+            seriesPath = os.path.join(path, f"{currentSeries}._seria")
             if not os.path.exists(seriesPath):
                 os.mkdir(seriesPath)
             self.generateExerciseFile(seminar, seminarExercises, str(currentSeries), seriesPath)
 
     def generateExerciseFile(self, seminar, seminarExercises, currentSeries,seriesPath):
         for currentSeminarExercise in seminarExercises[seminar]:
-            exercisePath = os.path.join(seriesPath, f"{currentSeminarExercise}_úloha.tex")
+            exercisePath = os.path.join(seriesPath, f"{currentSeminarExercise}_uloha.tex")
             with open(exercisePath, "w") as file:
                 templatePath = Config().get(f"{seminar}ExerciseTemplate")
                 templateText = ""

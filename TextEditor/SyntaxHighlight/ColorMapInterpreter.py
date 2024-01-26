@@ -19,7 +19,8 @@ class ColorMapInterpreter:
         with open(path, "r", encoding="utf-8") as f:
             self.colorMap = json.loads(f.read())
 
-    def interpret(self, colorKey):
+    def interpret(self, colorKey, allText):
+
         format = QTextCharFormat()
         font = QFont(self.getFontAttributeOrDefault("family", self.colorMap[colorKey]))
         weight = self.getFontAttributeOrDefault("weight", self.colorMap[colorKey])

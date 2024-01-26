@@ -1,8 +1,10 @@
 import re
 
 from PyQt5 import QtCore
-from PyQt5.QtCore import QStringListModel
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QCompleter
+
+from Defaults import FontDefaults
 
 keywordPath = "keywords.txt"
 class AutoCompleter(QCompleter):
@@ -13,9 +15,19 @@ class AutoCompleter(QCompleter):
         QCompleter.__init__(self, [], parent)
         self.keywords = []
         self.loadKeywords()
-        super().setModel(QStringListModel(self.keywords))
 
-        self.setCompletionMode(QCompleter.PopupCompletion)
+        self.model = QStandardItemModel()
+
+        row = 0
+        for keyword in self.keywords:
+            item = QStandardItem(keyword)
+            item.setText(keyword)
+            item.setFont(FontDefaults.classicFont)
+            self.model.setItem(row, 0, item)
+            row += 1
+
+        self.setModel(self.model)
+        self.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
         self.highlighted.connect(self.setHighlighted)
 
     def loadKeywords(self):

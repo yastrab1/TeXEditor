@@ -1,3 +1,0 @@
-\{.*?\};parameter;
-\\[A-Za-z]*;command;
-\$.+\$;inlinemath

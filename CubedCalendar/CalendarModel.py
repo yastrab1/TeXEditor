@@ -7,8 +7,9 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QMessageBox
 from icalendar import Calendar
 
+from Config.Config import Config
 from CubedCalendar.EventLabel import Event
-from Runtime import Runtime
+from Runtime import Runtime, Hooks
 
 calendarPath = "CubedCalendar/any.ics"
 interestedEventsPath = "CubedCalendar/interestedEvents.json"
@@ -25,7 +26,8 @@ class CalendarModel:
     def init(self):
         self.events = []
         self.interestedEvents = {}
-        Runtime().registerCallback("ApplicationEnd", self.saveInterestedEvents)
+
+        Runtime().registerHook(Hooks.APPSTOP, self.saveInterestedEvents)
 
     def saveInterestedEvents(self):
         data = {}
@@ -49,6 +51,10 @@ class CalendarModel:
             event = self.getEventFromUID(uid)
             event.interested = True
             event.notifyBeforeHours = eventdata["hours"]
+        for seminar in Config().get("CurrentSeminars"):
+            for event in self.events:
+                if seminar in event.summary:
+                    event.interested = True
 
     def importFromInternet(self):
         data = ""

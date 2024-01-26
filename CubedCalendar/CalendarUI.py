@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QCheckBox, QHBoxLayout, QComboBox, QPushButton, QWidget
 
 from CubedCalendar.CalendarModel import CalendarModel
-from CubedCalendar.EventLabel import EventLabel
+from CubedCalendar.EventLabel import EventLabel, Event
 from Defaults import FontDefaults
 
 
@@ -22,7 +22,7 @@ class CalendarEventDialog(QDialog):
         }
         return itemDeltaDict[index]
 
-    def __init__(self, calendarEvent):
+    def __init__(self, calendarEvent: Event):
         super().__init__()
         self.calendarEvent = calendarEvent
         self.layout = QVBoxLayout()
@@ -32,13 +32,19 @@ class CalendarEventDialog(QDialog):
         self.titleLabel.setFont(FontDefaults.titleFont)
         self.info = QLabel(f"Od:{self.calendarEvent.start}\n"
                            f"Do:{self.calendarEvent.end}")
+        self.info.setFont(FontDefaults.classicFont)
+        self.descriptionLabel = QLabel(self.calendarEvent.description)
+        self.descriptionLabel.setFont(FontDefaults.lessImportantFont)
 
         self.isInterested = QCheckBox("I am interested in this event")
+        self.isInterested.setFont(FontDefaults.classicFont)
 
         self.notifyMeLayout = QHBoxLayout()
         self.notifyMeLabel = QLabel("Notify me in:")
+        self.notifyMeLabel.setFont(FontDefaults.classicFont)
         self.notifyMeDropdown = QComboBox()
         self.notifyMeDropdown.addItems(CalendarEventDialog.getNotifyMeItemsList())
+        self.notifyMeDropdown.setFont(FontDefaults.classicFont)
 
         self.notifyMeLayout.addWidget(self.notifyMeLabel)
         self.notifyMeLayout.addWidget(self.notifyMeDropdown)
@@ -47,6 +53,7 @@ class CalendarEventDialog(QDialog):
         self.okButton.clicked.connect(self.close)
 
         self.layout.addWidget(self.titleLabel)
+        self.layout.addWidget(self.descriptionLabel)
         self.layout.addWidget(self.info)
         self.layout.addWidget(self.isInterested)
         self.layout.addLayout(self.notifyMeLayout)

@@ -5,5 +5,5 @@ class AbstractSeminarPage:
     def getPageHTML(self, address):
         raise NotImplementedError("Not implemented")
 
-    def submitFile(self, address, formId, filePath):
+    def submitFile(self, path, year, series, number):
         raise NotImplementedError("Not implemented")
