@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-import qpageview
+
 from PyQt5.QtWidgets import *
 
 from Config.Config import Config
@@ -37,8 +37,6 @@ class LaTeXEditor(QWidget):
 
         self.sidebar = SideBar()
 
-        self.pdfView = qpageview.View()
-        self.pdfView.loadPdf(r"C:\Users\Luki\Documents\skola\korespondaky\pmat\pikomat\pikomat 3.pdf")
 
 
         self.layout.setMenuBar(menu)
@@ -105,3 +103,4 @@ if __name__ == "__main__":
     state = app.exec_()
     Runtime().emitHook(Hooks.APPSTOP)
     sys.exit(state)
+

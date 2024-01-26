@@ -42,6 +42,9 @@ class FileStructure(QWidget):
         super().__init__()
         self.layout = QVBoxLayout()
 
+        if not os.path.exists(ROOT_DIR):
+            os.mkdir(ROOT_DIR)
+
         self.fileModel = QFileSystemModel()
         self.fileModel.setRootPath(ROOT_DIR)
         self.setLayout(self.layout)
