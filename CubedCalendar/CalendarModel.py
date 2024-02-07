@@ -9,6 +9,7 @@ from icalendar import Calendar
 
 from Config.Config import Config
 from CubedCalendar.EventLabel import Event
+from Domains.DomainFactorySingleton import DomainFactorySingleton
 from Runtime import Runtime, Hooks
 
 calendarPath = "CubedCalendar/any.ics"
@@ -92,6 +93,7 @@ class CalendarModel:
                 description = component.get("DESCRIPTION")
                 uid = component.get("UID")
                 self.events.append(Event(start, end, summary, description, uid))
+
         self.events.sort(key=lambda x: x.getStandardStart())
         self.loadInterestedEvents()
         self.spawnNotificationTimers()
@@ -128,17 +130,8 @@ class CalendarModel:
             "Failed loading Calendar from internet. Check your internet connection\nUsing last cached version of this calendar")
         box.exec_()
 
-    def getCurrentSeries(self,seminarName):
-        return 1
-        # for event in self.events:
-        #     if datetime.today().date() > event.end:
-        #         continue
-        #     if datetime.today().date() < event.start:
-        #         continue
-        #     pattern = re.compile(f"{seminarName} \\d+\\.séria")
-        #     if pattern.match(event.summary):
-        #         series = int(re.search("\\d+", event.summary))
-        #         return series
+    def getCurrentSeriesOfSeminar(self, seminarName):
+        return DomainFactorySingleton().createDomainByName(seminarName).getCurrentSeries()
 
     def getEventUIDFromName(self, eventName):
         for event in self.events:
@@ -153,3 +146,6 @@ class CalendarModel:
     def makeEventInterested(self, event, notifyHoursBefore):
         event.interested = True
         event.notifyBeforeHours = notifyHoursBefore
+
+    def getEvents(self):
+        return self.events

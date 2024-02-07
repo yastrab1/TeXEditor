@@ -4,6 +4,7 @@ from datetime import datetime, date, timedelta
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QLabel
 
+from Config.Config import Config
 from Defaults import FontDefaults
 
 
@@ -19,7 +20,8 @@ class EventLabel(QLabel):
             self.setStyleSheet("QLabel { color : red; }")
         if event.start < date.today():
             self.setStyleSheet("QLabel { color : gray; }")
-
+        if event.interested:
+            self.makeImportant()
     def mousePressEvent(self, event):
         self.clicked.emit(self)
 
@@ -42,6 +44,13 @@ class Event:
         self.interested = False
         self.notifyBeforeHours = 0
         self.description = description.encode("utf-8").decode("utf-8")
+        supportedSeminars = Config().get("SupportedSeminars")
+        self.seminar = ""
+        for seminar in supportedSeminars:
+            if seminar in self.summary:
+                self.seminar = seminar
+        if self.seminar in Config().get("CurrentSeminars"):
+            self.interested = True
         if end == None:
             self.end = self.start
     def getStandardStart(self):

@@ -33,7 +33,7 @@ class GenerateStructureButton(QPushButton):
             if not os.path.exists(path):
                 os.mkdir(path)
 
-            currentSeries = CalendarModel().getCurrentSeries(seminar)
+            currentSeries = CalendarModel().getCurrentSeriesOfSeminar(seminar)
 
             if not currentSeries:
                 dialog = self.errorNoSeries(seminar)
@@ -66,20 +66,17 @@ class GenerateStructureButton(QPushButton):
     def makeWarningToStart(self):
         dialog = QMessageBox()
         dialog.setWindowTitle("Are u sure?")
-        dialog.setText(f"This will delete all files in the directory '{Config().get("RootDir")}'")
+        dialog.setText("This will delete all files in the directory "+Config().get("RootDir"))
         dialog.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         dialog.setIcon(QMessageBox.Warning)
         return dialog
     def errorNoSeries(self, seminarName):
         dialog = QMessageBox()
         dialog.setWindowTitle("Error")
-        dialog.setText(f"There is no series currently going on in seminar {seminarName}")
+        dialog.setText("There is no series currently going on in seminar "+seminarName)
         dialog.setStandardButtons(QMessageBox.Ok)
         dialog.setIcon(QMessageBox.Critical)
         return dialog
-
-
-
 
 class SelectSeminars(ConfigAskDialog):
     def __init__(self):

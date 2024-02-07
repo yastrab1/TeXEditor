@@ -10,4 +10,5 @@ numpy~=1.26.3
 requests~=2.31.0
 icalendar~=5.0.11
 pyqtwebengine==5.15.6
+
 keyboard==0.13.5

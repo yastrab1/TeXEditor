@@ -5,24 +5,42 @@ from bs4 import BeautifulSoup
 from mechanize import *
 
 from Config.Config import Config
-from SeminarPage.AbstractSeminarPage import AbstractSeminarPage
+from Domains.WebDrivers.AbstractSeminarPage import AbstractSeminarWebDriver
 
 
 def _getCurrentPartOfYear(seriesNum):
     return "zimna" if seriesNum < 3 else "letna"
 
-class RieskyPage(AbstractSeminarPage):
+
+class RieskyDriver(AbstractSeminarWebDriver):
     def __init__(self):
+        super().__init__()
         self.browser = Browser()
 
-    def authenticate(self):
+    def authenticate(self) -> list[dict]:
         self.browser.open("https://riesky.sk/ucet/prihlasenie")
         self.browser.select_form(method="POST")
         print(Config().get("RieskyPassword"))
         self.browser["username"] = Config().get("RieskyUsername")
         self.browser["password"] = Config().get("RieskyPassword")
         self.browser.submit()
-        self.cookies = [i for i in self.browser.cookiejar]
+        cookiesList = self.cookiejarToCookieList()
+        return cookiesList
+
+    def cookiejarToCookieList(self):
+        cookies_list = []
+        for cookie in self.browser.cookie_jar:
+            cookie_dict = {
+                'name': cookie.name,
+                'value': cookie.value,
+                'domain': cookie.domain,
+                'path': cookie.path,
+                'expires': cookie.expires,
+                'secure': cookie.secure,
+                'httponly': cookie._rest['HttpOnly'] if 'HttpOnly' in cookie._rest else None,
+            }
+            cookies_list.append(cookie_dict)
+        return cookies_list
 
     def getPageHTML(self, linkAddr):
         request = urllib.request.Request(linkAddr)
@@ -41,7 +59,7 @@ class RieskyPage(AbstractSeminarPage):
 
 class RieskyScraper:
     def __init__(self):
-        self.page = RieskyPage()
+        self.page = RieskyDriver()
         self.page.authenticate()
 
     def getExercisesFromSeriesAndYear(self, seriesNum, year):
@@ -61,3 +79,6 @@ class RieskyScraper:
         seriesCard = soup.find("div", {"id": f"collapse-{year}-{partOfYear}-{series % 3 + 1}"})
         for card in seriesCard.find_all("tr", class_="table-success"):
             print(card.contents[7].text)
+
+    def _getCurrentPartOfYear(self, series) -> str:
+        return "zimna" if series < 3 else "letna"
