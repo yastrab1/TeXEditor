@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-import qpageview
+
 from PyQt5.QtWidgets import *
 
 from Config.Config import Config
@@ -37,8 +37,6 @@ class LaTeXEditor(QWidget):
 
         self.sidebar = SideBar()
 
-        self.pdfView = qpageview.View()
-        self.pdfView.loadPdf(r"C:\Users\Luki\Documents\skola\korespondaky\pmat\pikomat\pikomat 3.pdf")
 
 
         self.layout.setMenuBar(menu)
@@ -61,7 +59,7 @@ class LaTeXEditor(QWidget):
         self.path = path
         try:
             with open(path, 'r', encoding="utf-8") as file:
-                self.text_edit.setEditorText(file.read())
+                self.text_edit.setText(file.read())
                 rootAbs = os.path.abspath(Config().get("RootDir"))
                 self.setWindowTitle(os.path.relpath(rootAbs,path))
         except Exception as e:

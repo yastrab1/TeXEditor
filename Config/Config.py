@@ -7,6 +7,7 @@ from fernet import Fernet
 from Runtime import Runtime, Hooks
 
 CONFIG_FILE = "config.json"
+USER_DATA_FILE = "UserData.json"
 class Config:
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -17,6 +18,8 @@ class Config:
 
     def init(self):
         self.config = {}
+        self.appConfig = {}
+        self.userData = {}
         self.configAskingDialogs = {}
 
         self.saveConfigHooks = []
@@ -25,10 +28,18 @@ class Config:
         Runtime().registerHook(Hooks.APPSTOP, self.saveConfig)
 
     def loadConfig(self):
-        with open(CONFIG_FILE,"r",encoding="utf-8") as file:
+        rawUserData = self.loadRawFromFile(USER_DATA_FILE)
+        rawAppConfig = self.loadRawFromFile(CONFIG_FILE)
+        self.userData = self.applyCallbacksOnConfig(rawUserData,self.loadConfigHooks)
+        self.appConfig = self.applyCallbacksOnConfig(rawAppConfig, self.loadConfigHooks)
+        self.config.update(self.userData)
+        self.config.update(self.appConfig)
+
+
+    def loadRawFromFile(self,path):
+        with open(path, "r", encoding="utf-8") as file:
             text = file.read()
-            raw = json.loads(text)
-        self.config = self.applyCallbacksOnConfig(raw, self.loadConfigHooks)
+            return json.loads(text)
 
     def applyCallbacksOnConfig(self, config, callbacks):
         if len(callbacks) == 0:
@@ -59,8 +70,13 @@ class Config:
 
         return result
     def saveConfig(self):
-        serialized = self.applyCallbacksOnConfig(self.config, self.saveConfigHooks)
-        with open(CONFIG_FILE,"w",encoding="utf-8") as file:
+        serializedUserData = self.applyCallbacksOnConfig(self.userData, self.saveConfigHooks)
+        serializedAppConfig = self.applyCallbacksOnConfig(self.appConfig, self.saveConfigHooks)
+        self.dumpConfigToFile(serializedUserData,USER_DATA_FILE)
+        self.dumpConfigToFile(serializedAppConfig,CONFIG_FILE)
+
+    def dumpConfigToFile(self,serialized,path):
+        with open(path, "w", encoding="utf-8") as file:
             file.write(json.dumps(serialized, indent=4))
 
     def get(self,key):
@@ -75,17 +91,24 @@ class Config:
         if not key in self.configAskingDialogs.keys():
             raise ValueError(f"No config with key {key}")
 
-        args = self.configAskingDialogs[key][1]
+        args = self.getConfigAskDialogInitialParameters(key)
         if not args:
-            dialog = self.configAskingDialogs[key][0]()
+            dialog = self.getConfigAskDialogClass(key)()
         else:
-            dialog = self.configAskingDialogs[key][0](*self.configAskingDialogs[key][1])
+            dialog = self.getConfigAskDialogClass(key)(*args)
         newConfig = dialog.askConfig()
 
 
         for name,value in newConfig.items():
+            self.userData[name] = value
             self.config[name] = value
         return self.config[key]
+
+    def getConfigAskDialogClass(self, key):
+        return self.configAskingDialogs[key][0]
+
+    def getConfigAskDialogInitialParameters(self, key):
+        return self.configAskingDialogs[key][1]
 
     def findRegex(self, regex):
         keys = self.config.keys()

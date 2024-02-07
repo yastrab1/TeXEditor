@@ -2,10 +2,11 @@ import os.path
 import shutil
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QFileSystemModel
+from PyQt5.QtWidgets import QFileSystemModel, QPushButton
 from PyQt5.QtWidgets import QTreeView, QWidget, QVBoxLayout, QMessageBox, QLabel
 
 from Config.Config import Config
+from Defaults.WidgetDefaults import CollapsibleBox
 from FileStructure.GenerateStructure import GenerateStructureButton
 from Runtime import Runtime
 
@@ -15,7 +16,22 @@ ROOT_DIR = Config().get("RootDir")
 class FileStructureLeafItem(QLabel):
     def __init__(self, path):
         super().__init__()
+        self.layout = QVBoxLayout()
+
         self.setText(os.path.basename(path))
+        self.submit = QPushButton("Submit")
+
+        self.layout.setAlignment(self.submit, Qt.AlignRight)
+        self.layout.addWidget(self.submit)
+
+
+class FileStructureDirectory(CollapsibleBox):
+    def __init__(self, path):
+        super().__init__(os.path.basename(path))
+        self.descendants = []
+        for root, dirs, files in os.walk(path):
+            pass
+
 class FileStructureTreeView(QTreeView):
     def __init__(self):
 

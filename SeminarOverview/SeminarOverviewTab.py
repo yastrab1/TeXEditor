@@ -18,5 +18,5 @@ class SeminarOverviewTab(QFrame):
     def submitFile(self):
         page = RieskyPage()
         page.authenticate()
-        page.submitFile(r"C:\Users\Luki\PycharmProjects\TeXEditor\FileSystem\Pikofyz\1._séria\1._úloha.pdf",
+        page.submitFile(r"C:\Users\dc\PycharmProjects\TeXEditor\FileSystem\Pikofyz\1._séria\1._úloha.pdf",
                         26, 3, 6)

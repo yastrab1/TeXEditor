@@ -48,10 +48,16 @@
         "4.",
         "5."
     ],
-    "KMSExercises": [
+    "KMS alfaExercises": [
         "1.",
         "2.",
         "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7."
+    ],
+    "KMS betaExercises": [
         "4.",
         "5.",
         "6.",
@@ -64,14 +70,15 @@
     "PikomatWebsite": "https://pikomat.sk/",
     "PikofyzWebsite": "https://pikofyz.sk/",
     "TerabioWebsite": "https://terabio.sk/",
-    "KMSWebsite": "https://kms.sk/ulohy/",
+    "KMS alfaWebsite": "https://kms.sk/ulohy/",
+    "KMS betaWebsite": "https://kms.sk/ulohy/",
     "RootDir": "FileSystem",
-    "SyntaxStyles": "TextEditor/SyntaxHighlight/styles.css",
-    "RieskyExerciseTemplate": "Templates/defaultTemplate.tex",
-    "PikomatExerciseTemplate": "Templates/defaultTemplate.tex",
-    "PikofyzExerciseTemplate": "Templates/defaultTemplate.tex",
-    "TerabioExerciseTemplate": "Templates/defaultTemplate.tex",
-    "KMSExerciseTemplate": "Templates/defaultTemplate.tex",
+    "RieskyExerciseTemplate": "defaultTemplate.tex",
+    "PikomatExerciseTemplate": "defaultTemplate.tex",
+    "PikofyzExerciseTemplate": "defaultTemplate.tex",
+    "TerabioExerciseTemplate": "defaultTemplate.tex",
+    "KMS alfaExerciseTemplate": "defaultTemplate.tex",
+    "KMS betaExerciseTemplate": "defaultTemplate.tex",
     "FileTemplateProperties": [
         "AUTHOR"
     ],
@@ -84,33 +91,5 @@
         "FileTemplate",
         "TitleTemplate"
     ],
-    "RieskyUsername": "lukas",
-  "RieskyPassword": "gAAAAABlss5fA13za6Wai3T4loSg9uAs9hp2s4RJiP-xCsY1-d0-5MeiVYF8w46ZF3EPADyErjCMq7QeWGiwuAENdS3O7e0Gkg==",
-    "P-matUsername": "lipka.luki@gmail.com",
-  "P-matPassword": "gAAAAABlss5ffuTECYJTDAjYzz53gx2B9bWfOUq9lQYY2gLnUlA8clnvT3epjqlmQjap1B824EyKIyMPQH9uDENMDRSxbQ4fSw==",
-    "CurrentSeminars": [
-        "Riesky",
-        "Pikomat",
-        "Pikofyz",
-        "Terabio"
-    ],
-    "CurrentRieskyExercises": [
-        "3.",
-        "5.",
-        "6."
-    ],
-    "CurrentPikomatExercises": [
-        "1.",
-        "2.",
-        "6."
-    ],
-    "CurrentPikofyzExercises": [
-        "1.",
-        "5."
-    ],
-    "CurrentTerabioExercises": [
-        "1.",
-        "2."
-    ],
-    "ColorMapPath": "TextEditor/SyntaxHiglight/colorMap.json"
+    "SyntaxStyles": "TextEditor/SyntaxHighlight/styles.css"
 }
