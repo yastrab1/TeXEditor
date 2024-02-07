@@ -40,7 +40,7 @@ span.linenos.special {
 }
 
 {
-    background: #f8f8f8
+    background: white
 ;
 }
 .c {
@@ -61,7 +61,7 @@ span.linenos.special {
 
 /* Keyword */
 .o {
-    color: #666666
+    color: #666666 
 }
 
 /* Operator */

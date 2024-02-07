@@ -17,10 +17,13 @@ class Highlighter:
 
     def highlight(self):
         oldCursorPos = self.parent.textCursor().position()
-        formatted = highlight(self.parent.toPlainText(), self.lexer, self.formatter)
-        print(formatted)
-        self.parent.blockSignals(True)
+        formatted = highlight(self.parent.toPlainText(), self.lexer, self.formatter).strip("\n")
+        errorIndex = formatted.rindex("</pre></div>")
+        formatted = formatted[:errorIndex]
+        formatted = formatted.strip() + "</pre></div>"
 
+        self.parent.blockSignals(True)
+        print(formatted)
         self.parent.setText(formatted)
         tc = self.parent.textCursor()
         tc.setPosition(oldCursorPos)

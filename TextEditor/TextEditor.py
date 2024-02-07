@@ -33,7 +33,6 @@ class CustomTextEdit(QTextEdit):
             current = len(tc.selectedText())
             toInsert = self.completer.getSelected()[current:]
             total = tc.selectedText() + toInsert
-            print(total)
             tc.beginEditBlock()
             self.insertText(toInsert)
             if "{" in toInsert:
@@ -72,9 +71,7 @@ class CustomTextEdit(QTextEdit):
         self.completer.onTextUpdated(self.toPlainText())
 
     def insertText(self, text: str):
-        final = text
-
-        self.insertPlainText(final)
+        self.insertPlainText(text)
 
     def processEvent(self, event):
         super().keyPressEvent(event)

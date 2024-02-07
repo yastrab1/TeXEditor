@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QFrame, QVBoxLayout, QPushButton
 
-from SeminarPage.RieskyPage import RieskyPage
+from Domains.WebDrivers.RieskyDriver import RieskyDriver
 
 
 class SeminarOverviewTab(QFrame):
@@ -16,7 +16,7 @@ class SeminarOverviewTab(QFrame):
         self.setLayout(self.layout)
 
     def submitFile(self):
-        page = RieskyPage()
+        page = RieskyDriver()
         page.authenticate()
         page.submitFile(r"C:\Users\Luki\PycharmProjects\TeXEditor\FileSystem\Pikofyz\1._séria\1._úloha.pdf",
                         26, 3, 6)

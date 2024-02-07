@@ -9,6 +9,7 @@ from icalendar import Calendar
 
 from Config.Config import Config
 from CubedCalendar.EventLabel import Event
+from Domains.DomainFactorySingleton import DomainFactorySingleton
 from Runtime import Runtime, Hooks
 
 calendarPath = "CubedCalendar/any.ics"
@@ -63,11 +64,8 @@ class CalendarModel:
         except requests.ConnectionError as e:
             self.makeErrorBox()
         if not data:
-            with open('CubedCalendar/any.ics', 'r', encoding="utf-8") as file:
+            with open(interestedEventsPath, 'r', encoding="utf-8") as file:
                 data = file.read()
-                print(f"data{data}")
-                if data == "{}":
-                    data = ""
         return data
 
     def _importFromInternetUnhandled(self):
@@ -80,7 +78,6 @@ class CalendarModel:
     def cacheData(self, data):
         with open(calendarPath, 'w', encoding="utf-8") as file:
             file.write(data)
-
     def load(self):
         data = self.importFromInternet()
         self.events = []
@@ -133,17 +130,8 @@ class CalendarModel:
             "Failed loading Calendar from internet. Check your internet connection\nUsing last cached version of this calendar")
         box.exec_()
 
-    def getCurrentSeries(self, seminarName):
-        return 1
-        # for event in self.events:
-        #     if datetime.today().date() > event.end:
-        #         continue
-        #     if datetime.today().date() < event.start:
-        #         continue
-        #     pattern = re.compile(f"{seminarName} \\d+\\.séria")
-        #     if pattern.match(event.summary):
-        #         series = int(re.search("\\d+", event.summary))
-        #         return series
+    def getCurrentSeriesOfSeminar(self, seminarName):
+        return DomainFactorySingleton().createDomainByName(seminarName).getCurrentSeries()
 
     def getEventUIDFromName(self, eventName):
         for event in self.events:
@@ -158,3 +146,6 @@ class CalendarModel:
     def makeEventInterested(self, event, notifyHoursBefore):
         event.interested = True
         event.notifyBeforeHours = notifyHoursBefore
+
+    def getEvents(self):
+        return self.events

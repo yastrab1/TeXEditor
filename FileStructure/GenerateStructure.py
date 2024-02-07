@@ -33,7 +33,7 @@ class GenerateStructureButton(QPushButton):
             if not os.path.exists(path):
                 os.mkdir(path)
 
-            currentSeries = CalendarModel().getCurrentSeries(seminar)
+            currentSeries = CalendarModel().getCurrentSeriesOfSeminar(seminar)
 
             if not currentSeries:
                 dialog = self.errorNoSeries(seminar)
@@ -77,9 +77,6 @@ class GenerateStructureButton(QPushButton):
         dialog.setStandardButtons(QMessageBox.Ok)
         dialog.setIcon(QMessageBox.Critical)
         return dialog
-
-
-
 
 class SelectSeminars(ConfigAskDialog):
     def __init__(self):
