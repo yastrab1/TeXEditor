@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QPushButton, QMessageBox
 
 from Config.Config import Config
 from CubedCalendar.CalendarModel import CalendarModel
-from Dialogs.SeminarAskingDialogs import SelectSeminars, SelectSeminarExcercises
 from Templates.TemplateCompiler import TemplateCompiler
 
 
@@ -14,34 +13,46 @@ class GenerateStructureButton(QPushButton):
         self.setText("Generate Structure")
         self.clicked.connect(self.onClick)
     def onClick(self):
-        self.warningDialog = self.makeWarningToStart()
-        result = self.warningDialog.exec()
-        if result == QMessageBox.Cancel:
+        if not self.warnUser():
             return
         seminars:list[str] = Config().get("CurrentSeminars")
 
-        seminarExercises = {}
-        for seminar in seminars:
-            seminarExercises[seminar] = Config().get(f"Current{seminar}Exercises")
+        seminarExercises = self.loadSeminarExercises(seminars)
 
         rootDir = Config().get("RootDir")
 
         for seminar in seminars:
-            path = os.path.join(rootDir,seminar)
-            if not os.path.exists(path):
-                os.mkdir(path)
+            self.generateSeminarFileStructure(rootDir, seminar, seminarExercises)
 
-            currentSeries = CalendarModel().getCurrentSeriesOfSeminar(seminar)
+    def generateSeminarFileStructure(self, rootDir, seminar, seminarExercises):
+        path = os.path.join(rootDir, seminar)
+        if not os.path.exists(path):
+            os.mkdir(path)
 
-            if not currentSeries:
-                dialog = self.errorNoSeries(seminar)
-                dialog.exec()
-                continue
+        currentSeries = CalendarModel().getCurrentSeriesOfSeminar(seminar)
 
-            seriesPath = os.path.join(path, f"{currentSeries}._seria")
-            if not os.path.exists(seriesPath):
-                os.mkdir(seriesPath)
-            self.generateExerciseFiles(seminar, seminarExercises, str(currentSeries),seriesPath)
+        if not currentSeries:
+            dialog = self.errorNoSeries(seminar)
+            dialog.exec()
+            return
+
+        seriesPath = os.path.join(path, f"{currentSeries}._seria")
+        if not os.path.exists(seriesPath):
+            os.mkdir(seriesPath)
+        self.generateExerciseFiles(seminar, seminarExercises, str(currentSeries), seriesPath)
+
+    def loadSeminarExercises(self, seminars):
+        seminarExercises = {}
+        for seminar in seminars:
+            seminarExercises[seminar] = Config().get(f"Current{seminar}Exercises")
+        return seminarExercises
+
+    def warnUser(self):
+        self.warningDialog = self.makeWarningToStart()
+        result = self.warningDialog.exec()
+        if result == QMessageBox.Cancel:
+            return False
+        return True
 
     def generateExerciseFiles(self, seminar, seminarExercises, currentSeries,seriesPath):
         for currentSeminarExercise in seminarExercises[seminar]:
