@@ -48,16 +48,10 @@
         "4.",
         "5."
     ],
-    "KMS alfaExercises": [
+    "KMSExercises": [
         "1.",
         "2.",
         "3.",
-        "4.",
-        "5.",
-        "6.",
-        "7."
-    ],
-    "KMS betaExercises": [
         "4.",
         "5.",
         "6.",
@@ -70,15 +64,14 @@
     "PikomatWebsite": "https://pikomat.sk/",
     "PikofyzWebsite": "https://pikofyz.sk/",
     "TerabioWebsite": "https://terabio.sk/",
-    "KMS alfaWebsite": "https://kms.sk/ulohy/",
-    "KMS betaWebsite": "https://kms.sk/ulohy/",
+    "KMSWebsite": "https://kms.sk/ulohy/",
     "RootDir": "FileSystem",
-    "RieskyExerciseTemplate": "defaultTemplate.tex",
-    "PikomatExerciseTemplate": "defaultTemplate.tex",
-    "PikofyzExerciseTemplate": "defaultTemplate.tex",
-    "TerabioExerciseTemplate": "defaultTemplate.tex",
-    "KMS alfaExerciseTemplate": "defaultTemplate.tex",
-    "KMS betaExerciseTemplate": "defaultTemplate.tex",
+    "RieskyExerciseTemplate": "Templates/defaultTemplate.tex",
+    "PikomatExerciseTemplate": "Templates/defaultTemplate.tex",
+    "PikofyzExerciseTemplate": "Templates/defaultTemplate.tex",
+    "TerabioExerciseTemplate": "Templates/defaultTemplate.tex",
+    "KMS alfaExerciseTemplate": "Templates/defaultTemplate.tex",
+    "KMS betaExerciseTemplate": "Templates/defaultTemplate.tex",
     "FileTemplateProperties": [
         "AUTHOR"
     ],
@@ -87,7 +80,7 @@
         "EXERCISE",
         "SERIES"
     ],
-    "TemplateCompilersDefault": [
+    "TemplateCompilers": [
         "FileTemplate",
         "TitleTemplate"
     ],

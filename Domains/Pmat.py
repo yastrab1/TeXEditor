@@ -8,7 +8,7 @@ from Domains.WebDrivers.PmatDriver import PmatDriver
 class Pmat(Domain):
     def __init__(self):
         super().__init__()
-        self.summaryPattern = re.compile(f"{self.getName()} (\\d.)\\. séria")
+        self.summaryPattern = re.compile(self.getName()+r" (\d+)\.séria")
 
     def getSeriesNumberFromEventSummaryIfCorrect(self, event):
         match = self.summaryPattern.fullmatch(event.summary)

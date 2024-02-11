@@ -11,12 +11,13 @@ class TemplateCompiler:
         print(knownProperties)
         properties = Config().get(f"{self.compilerName}Properties") + list(knownProperties.keys())
         result:str= text
-        for prop in properties:
+        for currentProperty in properties:
             value = None
-            if prop in knownProperties.keys():
-                value = knownProperties[prop]
+            if currentProperty in knownProperties.keys():
+                value = knownProperties[currentProperty]
             else:
-                value = Config().get(prop)
-            result = result.replace(prop, value)
+                value = Config().get(currentProperty)
+            print(value)
+            result = result.replace(currentProperty, value)
         self.text = result
         return self.text
